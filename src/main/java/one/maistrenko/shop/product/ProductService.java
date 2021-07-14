@@ -7,4 +7,5 @@ public interface ProductService {
     public Product updateProduct(Product product);
     public void showProducts();
     public void removeProduct(long productId);
+    public Product getProduct(long productId);
 }

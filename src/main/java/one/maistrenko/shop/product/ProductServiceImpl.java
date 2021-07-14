@@ -60,4 +60,19 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("There is no product with id=" + productId);
         }
     }
+
+    @Override
+    public Product getProduct(long productId) {
+        Product helpProduct = products.get(productId);
+        if(null == helpProduct){
+            logger.warn("Get product with id {} was failed: product not exists", productId);
+            throw new RuntimeException("There is no product with id =" + productId);
+        }
+        Product product = Product.builder()
+                .productId(productId)
+                .description(helpProduct.getDescription())
+                .build();
+        return product;
+
+    }
 }

@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         helpUser.setUserid(user.getUserid());
         helpUser.setUsername(user.getUsername());
         helpUser.setPassword(user.getPassword());
-        helpUser.setBasket(user.getBasket());
+        //helpUser.setBasket(user.getBasket());
         return user;
     }
 
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         }
         helpUser.getBasket().putInBasket(product);
         logger.info("User with id {} put in basket product {}", userId, product);
-        logger.debug("User with id {} have in basket {}", users.get(userId).getUserid(), users.get(userId).getBasket());
+        //logger.debug("User with id {} have in basket {}", users.get(userId).getUserid(), users.get(userId).getBasket());
     }
 
     @Override

@@ -18,32 +18,6 @@ public class BasketDaoImpl implements BasketDao {
         idGenerator = generator;
     }
 
-    @Override
-    public void putInBasket(long basketId, Product product) {
-        ArrayList<Product> helplist = new ArrayList<>();
-        helplist.addAll(0, baskets.get(basketId).getProductList());
-        helplist.add(product);
-        baskets.get(basketId).setProductList(helplist);
-        logger.debug("basket {} have list {}", basketId, baskets.get(basketId).getProductList());
-        logger.info("product {} put in basket {}", product, basketId);
-    }
-
-    @Override
-    public void removeFromBasket(long basketId, Product product) {
-        ArrayList<Product> helplist = new ArrayList<>();
-        helplist.addAll(0, baskets.get(basketId).getProductList());
-        if(!helplist.remove(product)){
-            logger.debug("this basket doesn\'t contain this product");
-        }
-        baskets.get(basketId).setProductList(helplist);
-        logger.debug("basket {} have list {}", basketId, baskets.get(basketId).getProductList());
-        logger.info("product {} remove from basket {}", product, basketId);
-    }
-
-    @Override
-    public void showBasket(long basketId) {
-        System.out.println(baskets.get(basketId).getProductList());
-    }
 
     @Override
     public Basket createBasket(Basket basket) {

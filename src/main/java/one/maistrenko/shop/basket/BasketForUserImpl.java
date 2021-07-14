@@ -1,5 +1,6 @@
 package one.maistrenko.shop.basket;
 
+import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.product.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,13 @@ import java.util.ArrayList;
 public class BasketForUserImpl implements BasketForUser {
     private static final Logger logger = LoggerFactory.getLogger(BasketForUserImpl.class);
     private Basket basket;
+    private BasketDao basketDao;
+
+    public BasketForUserImpl(IdGenerator generator){
+        basketDao = new BasketDaoImpl(generator);
+        basketDao.createBasket(new Basket());
+        basket = new Basket();
+    }
 
     @Override
     public void putInBasket( Product product) {
