@@ -1,5 +1,8 @@
-package one.maistrenko.shop.basket;
+package one.maistrenko.shop.user.basketforuser;
 
+import one.maistrenko.shop.basket.Basket;
+import one.maistrenko.shop.basket.BasketService;
+import one.maistrenko.shop.basket.BasketServiceImpl;
 import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.product.Product;
 import org.slf4j.Logger;
@@ -10,12 +13,12 @@ import java.util.ArrayList;
 public class BasketForUserImpl implements BasketForUser {
     private static final Logger logger = LoggerFactory.getLogger(BasketForUserImpl.class);
     private Basket basket;
-    private BasketDao basketDao;
+    private BasketService basketService;
 
     public BasketForUserImpl(IdGenerator generator){
-        basketDao = new BasketDaoImpl(generator);
-        basketDao.createBasket(new Basket());
+        basketService = new BasketServiceImpl(generator);
         basket = new Basket();
+        basketService.createBasket(basket);
     }
 
     @Override
@@ -24,8 +27,8 @@ public class BasketForUserImpl implements BasketForUser {
         helplist.addAll(0, basket.getProductList());
         helplist.add(product);
         basket.setProductList(helplist);
-        logger.debug("basket {} have list {}", basket.getBasketId(), basket.getProductList());
-        logger.info("product {} put in basket {}", product, basket.getBasketId());
+        logger.debug("basket with id {} have list {}", basket.getBasketId(), basket.getProductList());
+        logger.info("product {} put in basket with id {}", product, basket.getBasketId());
     }
 
     @Override
@@ -44,5 +47,14 @@ public class BasketForUserImpl implements BasketForUser {
     public void showBasket() {
         System.out.println(basket.getProductList());
     }
+
+    @Override
+    public Basket getBasket() {
+        return Basket.builder()
+                .basketId(basket.getBasketId())
+                .productList(basket.getProductList())
+                .build();
+    }
+
 
 }

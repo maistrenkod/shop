@@ -2,7 +2,7 @@ package one.maistrenko.shop.user;
 
 import one.maistrenko.shop.product.Product;
 
-public interface UserService {
+public interface UserDao {
     public void removeUser(long userId);
     public void showUsers();
     public User createUser(User user);
@@ -12,5 +12,4 @@ public interface UserService {
     public void showBasket(long userId);
     public User getUserById(long userId);
     public User getUserByName(String username);
-
 }

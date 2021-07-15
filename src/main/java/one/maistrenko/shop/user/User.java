@@ -3,8 +3,7 @@ package one.maistrenko.shop.user;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import one.maistrenko.shop.basket.Basket;
-import one.maistrenko.shop.basket.BasketForUser;
+import one.maistrenko.shop.user.basketforuser.BasketForUser;
 
 @Data
 @AllArgsConstructor

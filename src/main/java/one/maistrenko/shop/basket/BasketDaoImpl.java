@@ -49,4 +49,17 @@ public class BasketDaoImpl implements BasketDao {
             System.out.println(i);
         }
     }
+
+    @Override
+    public Basket getBasket(long basketId) {
+        Basket helpBasket = baskets.get(basketId);
+        if(null == helpBasket){
+            logger.warn("Get basket with id {} was failed: basket not exists", basketId);
+            throw new RuntimeException("There is no basket with id =" + basketId);
+        }
+        return Basket.builder()
+                .basketId(basketId)
+                .productList(helpBasket.getProductList())
+                .build();
+    }
 }

@@ -3,7 +3,7 @@ package one.maistrenko.shop;
 import one.maistrenko.shop.basket.Basket;
 import one.maistrenko.shop.basket.BasketDao;
 import one.maistrenko.shop.basket.BasketDaoImpl;
-import one.maistrenko.shop.basket.BasketForUserImpl;
+import one.maistrenko.shop.user.basketforuser.BasketForUserImpl;
 import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.idGenerator.IdGeneratorImpl;
 import one.maistrenko.shop.product.Product;
@@ -24,6 +24,7 @@ public class Application {
 
         Scanner scanner = new Scanner(System.in);
         Scanner scanner1 = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
         while (true){
             System.out.println("Enter command: ");
             switch(scanner1.nextLine()){
@@ -31,7 +32,7 @@ public class Application {
                     createUser(userService, scanner, generator);
                     break;
                 case  "update-user":
-                    updateUser(userService, scanner, generator);
+                    updateUser(userService, scanner, scanner2);
                     break;
                 case "remove-user":
                     removeUser(userService, scanner);
@@ -43,7 +44,7 @@ public class Application {
                     createProduct(productService, scanner);
                     break;
                 case "update-product":
-                    updateProduct(productService, scanner);
+                    updateProduct(productService, scanner, scanner2);
                     break;
                 case "remove-product":
                     removeProduct(productService, scanner);
@@ -84,14 +85,14 @@ public class Application {
         userService.createUser(new User(0, username, password, new BasketForUserImpl(generator)));
     }
 
-    public static void updateUser(UserService userService, Scanner scanner, IdGenerator generator){
+    public static void updateUser(UserService userService, Scanner scanner, Scanner scanner1){
         System.out.println("Enter user id:");
         long id = scanner.nextLong();
         System.out.println("Enter username:");
-        String username = scanner.nextLine();
+        String username = scanner1.nextLine();
         System.out.println("Enter password:");
-        String password = scanner.nextLine();
-        userService.updateUser(new User(id, username, password, new BasketForUserImpl(generator)));
+        String password = scanner1.nextLine();
+        userService.updateUser(new User(id, username, password, userService.getUserById(id).getBasket()));
     }
 
     public static void removeUser(UserService userService, Scanner scanner){
@@ -106,11 +107,11 @@ public class Application {
         productService.createProduct(new Product(0,description));
     }
 
-    public static void updateProduct (ProductService productService, Scanner scanner){
+    public static void updateProduct (ProductService productService, Scanner scanner, Scanner scanner1){
         System.out.println("Enter product id:");
         long id = scanner.nextLong();
         System.out.println("Enter product description:");
-        String description = scanner.nextLine();
+        String description = scanner1.nextLine();
         productService.updateProduct(new Product(id, description));
     }
 
