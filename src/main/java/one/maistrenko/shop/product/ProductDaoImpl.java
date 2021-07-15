@@ -80,7 +80,7 @@ public class ProductDaoImpl implements ProductDao {
                 return getProduct(i.getProductId());
             }
         }
-        logger.info("Product description {} is available", description);
+        logger.info("Product description: {} is available", description);
         return null;
     }
 }

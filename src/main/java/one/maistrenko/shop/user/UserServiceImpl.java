@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
             logger.warn("Can't create user. User password length is", user.getPassword().length());
             return null;
         }
+        if(user.getUsername().length() < 1){
+            System.out.println("Can't create user. Username is not available");
+            logger.warn("Can't create user. Username is {} to short", user.getUsername());
+            return null;
+        }
         User helpUser = userDao.getUserByName(user.getUsername());
         if(!(null == helpUser)){
             System.out.println("Can't create user. This username already exists");
