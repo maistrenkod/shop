@@ -15,10 +15,10 @@ public class BasketForUserImpl implements BasketForUser {
     private Basket basket;
     private BasketService basketService;
 
-    public BasketForUserImpl(IdGenerator generator){
-        basketService = new BasketServiceImpl(generator);
+    public BasketForUserImpl(BasketService basketService){
         basket = new Basket();
-        basketService.createBasket(basket);
+        this.basketService = basketService;
+        this.basketService.createBasket(basket);
     }
 
     @Override
