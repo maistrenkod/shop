@@ -2,18 +2,18 @@ package one.maistrenko.shop.user;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.product.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
 @EqualsAndHashCode
 @ToString
+@Slf4j
+@Service("user-dao")
 public class UserDaoImpl implements UserDao {
-    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     private Map<Long,User> users = new HashMap<>();
     private IdGenerator idGenerator;
 
@@ -25,9 +25,9 @@ public class UserDaoImpl implements UserDao {
     public void removeUser(long userId) {
         if (users.containsKey(userId)){
             users.remove(userId);
-            logger.info("user with id {} successfully removed", userId);
+            log.info("user with id {{}} successfully removed", userId);
         } else{
-            logger.warn("Removing user with id {} was failed : user not exists", userId);
+            log.warn("Removing user with id {{}} was failed : user not exists", userId);
             throw new RuntimeException("There is no user with id=" + userId);
         }
     }
@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
                 .build();
         users.put(id,helpUser);
         user.setUserid(id);
-        logger.info("User {} was created", users.get(id));
+        log.info("User {{}} was created", users.get(id));
         return user;
     }
 
@@ -58,14 +58,14 @@ public class UserDaoImpl implements UserDao {
     public User updateUser(User user) {
         User helpUser = users.get(user.getUserid());
         if(null == helpUser){
-            logger.warn("Update user with id {} was failed: user not exists", user.getUserid());
+            log.warn("Update user with id {{}} was failed: user not exists", user.getUserid());
             throw new RuntimeException("There is no user with id =" + user.getUserid());
         }
         helpUser.setUserid(user.getUserid());
         helpUser.setUsername(user.getUsername());
         helpUser.setPassword(user.getPassword());
         //helpUser.setBasket(user.getBasket());
-        logger.info("User {} was updated", helpUser);
+        log.info("User {{}} was updated", helpUser);
         return user;
     }
 
@@ -73,23 +73,23 @@ public class UserDaoImpl implements UserDao {
     public void putInBasket(long userId, Product product) {
         User helpUser = users.get(userId);
         if(null == helpUser){
-            logger.warn("Putting in basket user with id {} was failed: user not exists", userId);
+            log.warn("Putting in basket user with id {{}} was failed: user not exists", userId);
             throw new RuntimeException("There is no user with id =" + userId);
         }
         helpUser.getBasket().putInBasket(product);
-        logger.info("User with id {} put in basket product {}", userId, product);
-        logger.debug("User with id {} have in basket {}", users.get(userId).getUserid(), users.get(userId).getBasket().getBasket());
+        log.info("User with id {{}} put in basket product {{}}", userId, product);
+        log.debug("User with id {{}} have in basket {{}}", users.get(userId).getUserid(), users.get(userId).getBasket().getBasket());
     }
 
     @Override
     public void removeFromBasket(long userId, Product product) {
         User helpUser = users.get(userId);
         if(null == helpUser){
-            logger.warn("Removing from basket user with id {} was failed: user not exists", userId);
+            log.warn("Removing from basket user with id {{}} was failed: user not exists", userId);
             throw new RuntimeException("There is no user with id =" + userId);
         }
         helpUser.getBasket().removeFromBasket(product);
-        logger.debug("User with id {} have in basket {}", users.get(userId).getUserid(), users.get(userId).getBasket().getBasket());
+        log.debug("User with id {{}} have in basket {{}}", users.get(userId).getUserid(), users.get(userId).getBasket().getBasket());
 
     }
 
@@ -97,7 +97,7 @@ public class UserDaoImpl implements UserDao {
     public void showBasket(long userId) {
         User helpUser = users.get(userId);
         if(null == helpUser){
-            logger.warn("Removing from basket user with id {} was failed: user not exists", userId);
+            log.warn("Removing from basket user with id {{}} was failed: user not exists", userId);
             throw new RuntimeException("There is no user with id =" + userId);
         }
         helpUser.getBasket().showBasket();
@@ -107,7 +107,7 @@ public class UserDaoImpl implements UserDao {
     public User getUserById(long userId) {
         User helpuser = users.get(userId);
         if(null == helpuser){
-            logger.warn("Get user with id {} was failed: product not exists", userId);
+            log.warn("Get user with id {{}} was failed: product not exists", userId);
             throw new RuntimeException("User with id = "+ userId + " not exists");
         }
         return User.builder()
@@ -122,11 +122,11 @@ public class UserDaoImpl implements UserDao {
     public User getUserByName(String username) {
         for (User i:users.values()) {
             if(username.equals(i.getUsername())){
-                logger.info("Username {} is not available", username);
+                log.info("Username {{}} is not available", username);
                 return getUserById(i.getUserid());
             }
         }
-        logger.info("Username {} is available", username);
+        log.info("Username {{}} is available", username);
         return null;
     }
 }

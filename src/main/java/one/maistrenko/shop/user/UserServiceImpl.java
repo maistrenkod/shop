@@ -2,23 +2,20 @@ package one.maistrenko.shop.user;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import one.maistrenko.shop.idGenerator.IdGenerator;
+import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.product.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-
-import java.util.HashMap;
-import java.util.Map;
 
 @ToString
 @EqualsAndHashCode
+@Slf4j
+@Service("user-service")
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserDao userDao;
 
-    public UserServiceImpl(IdGenerator generator){
-        userDao = new UserDaoImpl(generator);
+    public UserServiceImpl(UserDao userDao){
+        this.userDao = userDao;
     }
 
     @Override
@@ -35,18 +32,18 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         if(user.getPassword().length() < 6){
             System.out.println("Can't create user. Password is not available");
-            logger.warn("Can't create user. User password length is", user.getPassword().length());
+            log.warn("Can't create user. User password length is", user.getPassword().length());
             return null;
         }
         if(user.getUsername().length() < 1){
             System.out.println("Can't create user. Username is not available");
-            logger.warn("Can't create user. Username is {} to short", user.getUsername());
+            log.warn("Can't create user. Username is {{}} to short", user.getUsername());
             return null;
         }
         User helpUser = userDao.getUserByName(user.getUsername());
         if(!(null == helpUser)){
             System.out.println("Can't create user. This username already exists");
-            logger.warn("Can't create user. This username {} already exists", user.getUsername());
+            log.warn("Can't create user. This username {{}} already exists", user.getUsername());
             return null;
         }
         return userDao.createUser(user);
@@ -55,14 +52,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         if(user.getPassword().length() < 6){
-            System.out.println("Can't updatee user. Password is not available");
-            logger.warn("Can't update user. User password's length is", user.getPassword().length());
+            System.out.println("Can't update user. Password is not available");
+            log.warn("Can't update user. User password's length is", user.getPassword().length());
             return null;
         }
         User helpUser = userDao.getUserByName(user.getUsername());
         if(!(null == helpUser)){
             System.out.println("Can't update user. This username already exists");
-            logger.warn("Can't update user. This username {} already exists", user.getUsername());
+            log.warn("Can't update user. This username {{}} already exists", user.getUsername());
             return null;
         }
         return userDao.updateUser(user);

@@ -1,16 +1,14 @@
 package one.maistrenko.shop.basket;
 
+import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.idGenerator.IdGenerator;
-import one.maistrenko.shop.product.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
+@Service("basket-dao")
 public class BasketDaoImpl implements BasketDao {
-    private static final Logger logger = LoggerFactory.getLogger(BasketDaoImpl.class);
     private Map<Long, Basket> baskets = new HashMap<>();
     private IdGenerator idGenerator;
 
@@ -28,7 +26,18 @@ public class BasketDaoImpl implements BasketDao {
                 .build();
         baskets.put(id,helpBasket);
         basket.setBasketId(id);
-        logger.info("Basket {} was created", baskets.get(id));
+        log.info("Basket {{}} was created", baskets.get(id));
+        return basket;
+    }
+
+    @Override
+    public Basket updateBasket(Basket basket) {
+        Basket helpBasket = baskets.get(basket.getBasketId());
+        if(null == helpBasket){
+            log.warn("Update basket with id {{}} was failed: basket not exists", basket.getBasketId());
+            throw new RuntimeException("There is no basket with id =" + basket.getBasketId());
+        }
+        helpBasket.setProductList(basket.getProductList());
         return basket;
     }
 
@@ -36,9 +45,9 @@ public class BasketDaoImpl implements BasketDao {
     public void removeBasket(long basketId) {
         if (baskets.containsKey(basketId)){
             baskets.remove(basketId);
-            logger.info("basket {} successfully removed", basketId);
+            log.info("basket {{}} successfully removed", basketId);
         } else{
-            logger.warn("Removing basket with id {} was failed : basket not exists", basketId);
+            log.warn("Removing basket with id {{}} was failed : basket not exists", basketId);
             throw new RuntimeException("There is no basket with id=" + basketId);
         }
     }
@@ -54,7 +63,7 @@ public class BasketDaoImpl implements BasketDao {
     public Basket getBasket(long basketId) {
         Basket helpBasket = baskets.get(basketId);
         if(null == helpBasket){
-            logger.warn("Get basket with id {} was failed: basket not exists", basketId);
+            log.warn("Get basket with id {{}} was failed: basket not exists", basketId);
             throw new RuntimeException("There is no basket with id =" + basketId);
         }
         return Basket.builder()

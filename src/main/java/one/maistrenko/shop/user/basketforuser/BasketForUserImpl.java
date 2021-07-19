@@ -1,17 +1,15 @@
 package one.maistrenko.shop.user.basketforuser;
 
+import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.basket.Basket;
 import one.maistrenko.shop.basket.BasketService;
-import one.maistrenko.shop.basket.BasketServiceImpl;
-import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.product.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
+@Slf4j
+@Service("basket-for-user")
 public class BasketForUserImpl implements BasketForUser {
-    private static final Logger logger = LoggerFactory.getLogger(BasketForUserImpl.class);
     private Basket basket;
     private BasketService basketService;
 
@@ -27,8 +25,9 @@ public class BasketForUserImpl implements BasketForUser {
         helplist.addAll(0, basket.getProductList());
         helplist.add(product);
         basket.setProductList(helplist);
-        logger.debug("basket with id {} have list {}", basket.getBasketId(), basket.getProductList());
-        logger.info("product {} put in basket with id {}", product, basket.getBasketId());
+        basketService.updateBasket(basket);
+        log.debug("basket with id {} have list {{}}", basket.getBasketId(), basket.getProductList());
+        log.info("product {} put in basket with id {{}}", product, basket.getBasketId());
     }
 
     @Override
@@ -36,11 +35,12 @@ public class BasketForUserImpl implements BasketForUser {
         ArrayList<Product> helplist = new ArrayList<>();
         helplist.addAll(0, basket.getProductList());
         if (!helplist.remove(product)) {
-            logger.debug("this basket with id {} doesn\'t contain product with id {}",basket.getBasketId(), product.getProductId());
+            log.debug("this basket with id {{}} doesn\'t contain product with id {{}}",basket.getBasketId(), product.getProductId());
         }
         basket.setProductList(helplist);
-        logger.debug("basket {} have list {}", basket.getBasketId(), basket.getProductList());
-        logger.info("product {} removed from basket {}", product, basket.getBasketId());
+        basketService.updateBasket(basket);
+        log.debug("basket {{}} has list {{}}", basket.getBasketId(), basket.getProductList());
+        log.info("product {{}} removed from basket {{}}", product, basket.getBasketId());
     }
 
     @Override
