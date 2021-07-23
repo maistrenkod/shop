@@ -26,8 +26,8 @@ public class BasketForUserImpl implements BasketForUser {
         helplist.add(product);
         basket.setProductList(helplist);
         basketService.updateBasket(basket);
-        log.debug("basket with id {} have list {{}}", basket.getBasketId(), basket.getProductList());
-        log.info("product {} put in basket with id {{}}", product, basket.getBasketId());
+        log.debug("basket with id {{}} have list {{}}", basket.getBasketId(), basket.getProductList());
+        log.info("product {{}} put in basket with id {{}}", product, basket.getBasketId());
     }
 
     @Override

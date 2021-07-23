@@ -1,8 +1,8 @@
 package one.maistrenko.shop.basket;
 
 import lombok.*;
-import one.maistrenko.shop.product.Product;
 
+import one.maistrenko.shop.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 

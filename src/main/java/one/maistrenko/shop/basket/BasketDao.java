@@ -1,6 +1,5 @@
 package one.maistrenko.shop.basket;
 
-import one.maistrenko.shop.product.Product;
 
 public interface BasketDao {
     Basket createBasket(Basket basket);
