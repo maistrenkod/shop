@@ -3,6 +3,8 @@ package one.maistrenko.shop.product;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Slf4j
 @Service("product-service")
 public class ProductServiceImpl implements ProductService {
@@ -47,8 +49,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void showProducts() {
-        productDao.showProducts();
+    public Map<Long, Product> showProducts() {
+        return productDao.showProducts();
     }
 
     @Override

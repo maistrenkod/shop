@@ -2,14 +2,18 @@ package one.maistrenko.shop.basket;
 
 import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.idGenerator.IdGenerator;
+import one.maistrenko.shop.product.Product;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Service("basket-dao")
 public class BasketDaoImpl implements BasketDao {
-    private Map<Long, Basket> baskets = new HashMap<>();
+    private final Map<Long, Basket> baskets = new HashMap<>();
     private IdGenerator idGenerator;
 
     public BasketDaoImpl(IdGenerator generator){
@@ -53,10 +57,11 @@ public class BasketDaoImpl implements BasketDao {
     }
 
     @Override
-    public void showAllBaskets() {
+    public Map<Long, Basket> showAllBaskets() {
         for (Basket i: baskets.values()) {
             System.out.println(i);
         }
+        return baskets;
     }
 
     @Override
@@ -70,5 +75,35 @@ public class BasketDaoImpl implements BasketDao {
                 .basketId(basketId)
                 .productList(helpBasket.getProductList())
                 .build();
+    }
+
+    @Override
+    public void putInBasket(long basketId, Product product) {
+        Basket helpBasket = getBasket(basketId);
+        ArrayList<Product> list = new ArrayList<>();
+        list.addAll(0, helpBasket.getProductList());
+        list.add(product);
+        helpBasket.setProductList(list);
+        updateBasket(helpBasket);
+        log.info("product {{}} was put to basket with id {{}}", product, basketId);
+        log.info("basket with id {{}} has list {{}}", basketId, helpBasket.getProductList());
+    }
+
+    @Override
+    public void removeFromBasket(long basketId, Product product) {
+        Basket helpBasket = getBasket(basketId);
+        ArrayList<Product> list = new ArrayList<>();
+        list.addAll(0, helpBasket.getProductList());
+        list.remove(product);
+        helpBasket.setProductList(list);
+        updateBasket(helpBasket);
+        log.info("product {{}} was removed from basket with id {{}}", product, basketId);
+        log.info("basket with id {{}} has list {{}}", basketId, helpBasket.getProductList());
+    }
+
+    @Override
+    public List<Product> showBasket(long basketId) {
+        Basket helpBasket = getBasket(basketId);
+        return helpBasket.getProductList();
     }
 }

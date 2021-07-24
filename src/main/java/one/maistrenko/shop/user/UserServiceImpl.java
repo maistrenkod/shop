@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.product.Product;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 
 @ToString
 @EqualsAndHashCode
@@ -24,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void showUsers() {
-        userDao.showUsers();
+    public Map<Long, User> showUsers() {
+        return userDao.showUsers();
     }
 
     @Override
@@ -65,20 +68,20 @@ public class UserServiceImpl implements UserService {
         return userDao.updateUser(user);
     }
 
-    @Override
-    public void putInBasket(long userId, Product product) {
-        userDao.putInBasket(userId,product);
-    }
-
-    @Override
-    public void removeFromBasket(long userId, Product product) {
-        userDao.removeFromBasket(userId,product);
-    }
-
-    @Override
-    public void showBasket(long userId) {
-        userDao.showBasket(userId);
-    }
+//    @Override
+//    public void putInBasket(long userId, Product product) {
+//        userDao.putInBasket(userId,product);
+//    }
+//
+//    @Override
+//    public void removeFromBasket(long userId, Product product) {
+//        userDao.removeFromBasket(userId,product);
+//    }
+//
+//    @Override
+//    public List<Product> showBasket(long userId) {
+//        return userDao.showBasket(userId);
+//    }
 
     @Override
     public User getUserById(long userId) {

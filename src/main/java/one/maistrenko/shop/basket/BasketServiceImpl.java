@@ -1,7 +1,11 @@
 package one.maistrenko.shop.basket;
 
 import lombok.extern.slf4j.Slf4j;
+import one.maistrenko.shop.product.Product;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service("basket-service")
@@ -40,12 +44,28 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void showAllBaskets() {
-        basketDao.showAllBaskets();
+    public Map<Long, Basket> showAllBaskets() {
+        return basketDao.showAllBaskets();
     }
 
     @Override
     public Basket getBasket(long basketId) {
         return basketDao.getBasket(basketId);
+    }
+
+    @Override
+    public void putInBasket(long basketId, Product product) {
+        basketDao.putInBasket(basketId, product);
+    }
+
+    @Override
+    public void removeFromBasket(long basketId, Product product) {
+        basketDao.removeFromBasket(basketId, product);
+    }
+
+    @Override
+    public List<Product> showBasket(long basketId) {
+        System.out.println(basketDao.showBasket(basketId));
+        return basketDao.showBasket(basketId);
     }
 }

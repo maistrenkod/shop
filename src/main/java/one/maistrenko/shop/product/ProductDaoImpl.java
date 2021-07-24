@@ -43,10 +43,11 @@ public class ProductDaoImpl implements ProductDao {
         return product;
     }
 
-    public void showProducts(){
+    public Map<Long, Product> showProducts(){
         for (Product i: products.values()) {
             System.out.println(i);
         }
+        return products;
     }
 
     public void removeProduct(long productId){
