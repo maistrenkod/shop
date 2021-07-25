@@ -20,7 +20,7 @@ public class UserServiceController {
         return userService.createUser(user);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "update")
+    @RequestMapping(method = RequestMethod.PATCH)
     public @ResponseBody User updateUser(@RequestBody User user){
         return userService.updateUser(user);
     }

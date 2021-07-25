@@ -22,7 +22,7 @@ public class ProductServiceController {
         return productService.createProduct(product);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "update")
+    @RequestMapping(method = RequestMethod.PATCH)
     public @ResponseBody Product updateProduct(@RequestBody Product product){
         return productService.updateProduct(product);
     }
