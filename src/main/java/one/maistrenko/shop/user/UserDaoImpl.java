@@ -3,20 +3,37 @@ package one.maistrenko.shop.user;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import one.maistrenko.shop.basket.Basket;
 import one.maistrenko.shop.basket.BasketService;
 import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.product.Product;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EqualsAndHashCode
 @ToString
 @Slf4j
 @Service("user-dao")
 public class UserDaoImpl implements UserDao {
-    private final Map<Long,User> users = new HashMap<>();
+    private final Map<Long,User> users = new ConcurrentHashMap<>(){{
+        put(1L, User.builder()
+                .userid(1)
+                .username("user")
+                .password("user")
+                .basketId(8)
+                .build());
+        put(2L, User.builder()
+                .userid(2)
+                .username("admin")
+                .password("admin")
+                .basketId(9)
+                .build());
+    }};
     private IdGenerator idGenerator;
     private final BasketService basketService;
 
@@ -47,12 +64,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User createUser(User user) {
         long id = idGenerator.generateId();
-        basketService.getBasket(user.getBasketId());
+//        basketService.getBasket(user.getBasketId());
         User helpUser = User.builder()
                 .userid(id)
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .basketId(user.getBasketId())
+                .basketId(1)
                 .build();
         users.put(id,helpUser);
         user.setUserid(id);

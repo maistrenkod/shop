@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.product.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.Map;
 @Slf4j
 @Service("user-service")
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+
+    private UserDao userDao;
 
     public UserServiceImpl(UserDao userDao){
         this.userDao = userDao;
