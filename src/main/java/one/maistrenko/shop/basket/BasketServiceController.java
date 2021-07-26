@@ -21,7 +21,7 @@ public class BasketServiceController {
         return basketService.createBasket(basket);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "update")
+    @RequestMapping(method = RequestMethod.PATCH)
     public @ResponseBody Basket updateBasket(@RequestBody Basket basket){
         return basketService.updateBasket(basket);
     }

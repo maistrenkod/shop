@@ -35,12 +35,12 @@ public class UserServiceController {
         return userService.showUsers();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "id:\\id+")
+    @RequestMapping(method = RequestMethod.GET, value = "{id:\\d+}")
     public @ResponseBody User getUserById(@PathVariable long id){
         return userService.getUserById(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "name:\\D+")
+    @RequestMapping(method = RequestMethod.GET, value = "{name:\\D+}")
     public @ResponseBody User getUserByName(@PathVariable String name){
         return userService.getUserByName(name);
     }
