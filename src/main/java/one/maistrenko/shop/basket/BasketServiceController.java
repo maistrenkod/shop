@@ -8,7 +8,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/basket")
-@Service("basket-service-controller")
 public class BasketServiceController {
     private final BasketService basketService;
 

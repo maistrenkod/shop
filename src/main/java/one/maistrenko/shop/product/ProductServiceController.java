@@ -8,7 +8,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/product")
-@Service("product-service-controller")
 @Slf4j
 public class ProductServiceController {
     private final ProductService productService;

@@ -53,6 +53,7 @@ public class UserDaoImpl implements UserDao {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .basketId(user.getBasketId())
+                .role(user.getRole())
                 .build();
         users.put(id,helpUser);
         user.setUserid(id);
@@ -71,7 +72,8 @@ public class UserDaoImpl implements UserDao {
         helpUser.setUserid(user.getUserid());
         helpUser.setUsername(user.getUsername());
         helpUser.setPassword(user.getPassword());
-        //helpUser.setBasket(user.getBasket());
+        helpUser.setBasketId(user.getBasketId());
+        helpUser.setRole(user.getRole());
         log.info("User {{}} was updated", helpUser);
         return user;
     }
@@ -122,6 +124,7 @@ public class UserDaoImpl implements UserDao {
                 .username(helpuser.getUsername())
                 .password(helpuser.getPassword())
                 .basketId(helpuser.getBasketId())
+                .role(helpuser.getRole())
                 .build();
     }
 

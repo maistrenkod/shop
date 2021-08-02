@@ -13,5 +13,7 @@ public class User {
     private long userid;
     private String username;
     private String password;
+    private Role role;
     private long basketId;
 }
+enum Role{ADMIN, USER}
