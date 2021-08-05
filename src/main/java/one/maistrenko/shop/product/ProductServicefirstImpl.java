@@ -1,22 +1,17 @@
 package one.maistrenko.shop.product;
 
 import lombok.extern.slf4j.Slf4j;
-import one.maistrenko.shop.idGenerator.IdGenerator;
-import one.maistrenko.shop.user.User;
-import one.maistrenko.shop.user.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service("product-dao")
-public class ProductDaoImpl implements ProductDao {
+public class ProductServicefirstImpl implements ProductServicefirst {
 
 //    @Autowired
 //    private IdGenerator idGenerator;

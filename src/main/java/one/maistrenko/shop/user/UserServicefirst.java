@@ -3,7 +3,7 @@ package one.maistrenko.shop.user;
 import java.text.ParseException;
 import java.util.List;
 
-public interface UserDao {
+public interface UserServicefirst {
     void removeUser(long userId);
     List<User> showUsers();
     User createUser(User user) throws ParseException;

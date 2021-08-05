@@ -6,15 +6,14 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service("basket-service")
 public class BasketServiceImpl implements BasketService {
-    private final BasketDao basketDao;
+    private final BasketServicefirst basketServicefirst;
 
-    public BasketServiceImpl(BasketDao basketDao) {
-        this.basketDao = basketDao;
+    public BasketServiceImpl(BasketServicefirst basketServicefirst) {
+        this.basketServicefirst = basketServicefirst;
     }
 
     @Override
@@ -24,13 +23,13 @@ public class BasketServiceImpl implements BasketService {
             log.warn("Can't create basket. Quantity of products is {{}}", basket.getProductList().size());
             return  null;
         } else {
-            return basketDao.createBasket(basket);
+            return basketServicefirst.createBasket(basket);
         }
     }
 
     @Override
     public void removeBasket(long basketId) {
-        basketDao.removeBasket(basketId);
+        basketServicefirst.removeBasket(basketId);
     }
 
     @Override
@@ -40,33 +39,33 @@ public class BasketServiceImpl implements BasketService {
             log.warn("Can't update basket. Quantity of products is {{}}", basket.getProductList().size());
             return  null;
         } else {
-            return basketDao.updateBasket(basket);
+            return basketServicefirst.updateBasket(basket);
         }
     }
 
     @Override
     public List<Basket> showAllBaskets() {
-        return basketDao.showAllBaskets();
+        return basketServicefirst.showAllBaskets();
     }
 
     @Override
     public Basket getBasket(long basketId) {
-        return basketDao.getBasket(basketId);
+        return basketServicefirst.getBasket(basketId);
     }
 
     @Override
     public void putInBasket(long basketId, Product product) throws ParseException {
-        basketDao.putInBasket(basketId, product);
+        basketServicefirst.putInBasket(basketId, product);
     }
 
     @Override
     public void removeFromBasket(long basketId, Product product) throws ParseException {
-        basketDao.removeFromBasket(basketId, product);
+        basketServicefirst.removeFromBasket(basketId, product);
     }
 
     @Override
     public List<Product> showBasket(long basketId) {
-        System.out.println(basketDao.showBasket(basketId));
-        return basketDao.showBasket(basketId);
+        System.out.println(basketServicefirst.showBasket(basketId));
+        return basketServicefirst.showBasket(basketId);
     }
 }

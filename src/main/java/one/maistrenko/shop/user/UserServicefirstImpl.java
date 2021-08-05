@@ -4,22 +4,19 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.basket.BasketService;
-import one.maistrenko.shop.idGenerator.IdGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @EqualsAndHashCode
 @ToString
 @Slf4j
 @Service("user-dao")
-public class UserDaoImpl implements UserDao {
+public class UserServicefirstImpl implements UserServicefirst {
 //    private final Map<Long,User> users = new HashMap<>();
 //    @Autowired
 //    private IdGenerator idGenerator;

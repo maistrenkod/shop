@@ -5,15 +5,14 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service("product-service")
 public class ProductServiceImpl implements ProductService {
-    private final ProductDao productDao;
+    private final ProductServicefirst productServicefirst;
 
-    public ProductServiceImpl(ProductDao productDao){
-        this.productDao = productDao;
+    public ProductServiceImpl(ProductServicefirst productServicefirst){
+        this.productServicefirst = productServicefirst;
     }
 
 
@@ -24,13 +23,13 @@ public class ProductServiceImpl implements ProductService {
             log.warn("Can't create product. Description's length is {{}}", product.getDescription().length());
             return null;
         }
-        Product helpProduct = productDao.getProductByDescription(product.getDescription());
+        Product helpProduct = productServicefirst.getProductByDescription(product.getDescription());
         if(!(null == helpProduct)){
             System.out.println("Can't create product. Product with equal description already exists.");
             log.warn("Can't create product. This description {{}} already exists", product.getDescription().length());
             return null;
         }
-        return productDao.createProduct(product);
+        return productServicefirst.createProduct(product);
     }
 
     @Override
@@ -40,9 +39,9 @@ public class ProductServiceImpl implements ProductService {
             log.warn("Can't update product. Description's length is {{}}", product.getDescription().length());
             return null;
         }
-        Product helpProduct = productDao.getProductByDescription(product.getDescription());
+        Product helpProduct = productServicefirst.getProductByDescription(product.getDescription());
         if(null == helpProduct || helpProduct.getDescription().equals(product.getDescription())){
-            return productDao.updateProduct(product);
+            return productServicefirst.updateProduct(product);
         } else {
             System.out.println("Can't create product. Product with equal description already exists.");
             log.warn("Can't create product. This description:{{}} already exists", product.getDescription().length());
@@ -52,16 +51,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> showProducts() {
-        return productDao.showProducts();
+        return productServicefirst.showProducts();
     }
 
     @Override
     public void removeProduct(long productId) {
-        productDao.removeProduct(productId);
+        productServicefirst.removeProduct(productId);
     }
 
     @Override
     public Product getProduct(long productId) {
-        return productDao.getProduct(productId);
+        return productServicefirst.getProduct(productId);
     }
 }

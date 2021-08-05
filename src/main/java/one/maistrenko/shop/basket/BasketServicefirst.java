@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
-public interface BasketDao {
+public interface BasketServicefirst {
     Basket createBasket(Basket basket) throws ParseException;
     Basket updateBasket(Basket basket) throws ParseException;
     void removeBasket(long basketId);

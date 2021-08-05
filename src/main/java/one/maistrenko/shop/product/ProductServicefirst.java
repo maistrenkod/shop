@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
-public interface ProductDao {
+public interface ProductServicefirst {
     Product createProduct(Product product) throws ParseException;
     Product updateProduct(Product product);
     List<Product> showProducts();

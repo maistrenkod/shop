@@ -19,20 +19,20 @@ public class UserServiceImpl implements UserService {
 //    @Autowired
 //    private UserRepository userRepository;
 
-    private final UserDao userDao;
+    private final UserServicefirst userServicefirst;
 
-    public UserServiceImpl(UserDao userDao){
-        this.userDao = userDao;
+    public UserServiceImpl(UserServicefirst userServicefirst){
+        this.userServicefirst = userServicefirst;
     }
 
     @Override
     public void removeUser(long userId) {
-        userDao.removeUser(userId);
+        userServicefirst.removeUser(userId);
     }
 
     @Override
     public List<User> showUsers() {
-        return userDao.showUsers();
+        return userServicefirst.showUsers();
     }
 
     @Override
@@ -47,13 +47,13 @@ public class UserServiceImpl implements UserService {
             log.warn("Can't create user. Username is {{}} to short", user.getUsername());
             return null;
         }
-        User helpUser = userDao.getUserByName(user.getUsername());
+        User helpUser = userServicefirst.getUserByName(user.getUsername());
         if(!(null == helpUser)){
             System.out.println("Can't create user. This username already exists");
             log.warn("Can't create user. This username {{}} already exists", user.getUsername());
             return null;
         }
-        return userDao.createUser(user);
+        return userServicefirst.createUser(user);
     }
 
     @Override
@@ -63,9 +63,9 @@ public class UserServiceImpl implements UserService {
             log.warn("Can't update user. User password's length is", user.getPassword().length());
             return null;
         }
-        User helpUser = userDao.getUserByName(user.getUsername());
+        User helpUser = userServicefirst.getUserByName(user.getUsername());
         if(null == helpUser || user.getUsername().equals(helpUser.getUsername())){
-            return userDao.updateUser(user);
+            return userServicefirst.updateUser(user);
 
         } else{
             System.out.println("Can't update user. This username already exists");
@@ -92,11 +92,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(long userId) {
-        return userDao.getUserById(userId);
+        return userServicefirst.getUserById(userId);
     }
 
     @Override
     public User getUserByName(String username) {
-        return userDao.getUserByName(username);
+        return userServicefirst.getUserByName(username);
     }
 }

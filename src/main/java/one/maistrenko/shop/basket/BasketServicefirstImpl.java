@@ -2,7 +2,7 @@ package one.maistrenko.shop.basket;
 
 import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.product.Product;
-import one.maistrenko.shop.product.ProductDao;
+import one.maistrenko.shop.product.ProductServicefirst;
 import one.maistrenko.shop.product.ProductEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 @Service("basket-dao")
-public class BasketDaoImpl implements BasketDao {
+public class BasketServicefirstImpl implements BasketServicefirst {
 //    @Autowired
 //    private IdGenerator idGenerator;
     @Autowired
@@ -22,7 +22,7 @@ public class BasketDaoImpl implements BasketDao {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    private ProductDao productDao;
+    private ProductServicefirst productServicefirst;
 
 
 //    public BasketDaoImpl(IdGenerator generator){
@@ -41,7 +41,7 @@ public class BasketDaoImpl implements BasketDao {
         basketRepository.saveAndFlush(convertToEntity(helpBasket));
         List<ProductEntity> list = new ArrayList<>();
         for (int i = 0; i < basket.getProductList().size(); i++) {
-            list.add(productDao.convertToEntity(basket.getProductList().get(i)));
+            list.add(productServicefirst.convertToEntity(basket.getProductList().get(i)));
         }
 //        basket.setBasketId(basketRepository.findBasketEntityByProducts(list).getBasketId());
         log.info("Basket {{}} was created", basket);
@@ -58,7 +58,7 @@ public class BasketDaoImpl implements BasketDao {
         }
         List<ProductEntity> list = new ArrayList<>();
         for (int i = 0; i < basket.getProductList().size(); i++) {
-            list.add(productDao.convertToEntity(basket.getProductList().get(i)));
+            list.add(productServicefirst.convertToEntity(basket.getProductList().get(i)));
         }
         basketRepository.updateProduct(list, basket.getBasketId());
 //        helpBasket.setProductList(basket.getProductList());
