@@ -3,6 +3,8 @@ package one.maistrenko.shop.user;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api/v1/user")
@@ -15,7 +17,7 @@ public class UserServiceController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody User createUser(@RequestBody User user){
+    public @ResponseBody User createUser(@RequestBody User user) throws ParseException {
         return userService.createUser(user);
     }
 
@@ -29,8 +31,8 @@ public class UserServiceController {
         userService.removeUser(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody Map<Long, User> showUsers(){
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<User> showUsers(){
         return userService.showUsers();
     }
 

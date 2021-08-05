@@ -1,55 +1,77 @@
 package one.maistrenko.shop.basket;
 
 import lombok.extern.slf4j.Slf4j;
-import one.maistrenko.shop.idGenerator.IdGenerator;
 import one.maistrenko.shop.product.Product;
+import one.maistrenko.shop.product.ProductDao;
+import one.maistrenko.shop.product.ProductEntity;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service("basket-dao")
 public class BasketDaoImpl implements BasketDao {
-    private final Map<Long, Basket> baskets = new HashMap<>();
-    private IdGenerator idGenerator;
+//    @Autowired
+//    private IdGenerator idGenerator;
+    @Autowired
+    private BasketRepository basketRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private ProductDao productDao;
 
-    public BasketDaoImpl(IdGenerator generator){
-        idGenerator = generator;
-    }
+
+//    public BasketDaoImpl(IdGenerator generator){
+//        idGenerator = generator;
+//    }
 
 
     @Override
-    public Basket createBasket(Basket basket) {
-        long id = idGenerator.generateId();
+    public Basket createBasket(Basket basket) throws ParseException {
+        //long id = idGenerator.generateId();
         Basket helpBasket = Basket.builder()
-                .basketId(id)
+                .basketId(1)
                 .productList(basket.getProductList())
                 .build();
-        baskets.put(id,helpBasket);
-        basket.setBasketId(id);
-        log.info("Basket {{}} was created", baskets.get(id));
+//        baskets.put(id,helpBasket);
+        basketRepository.saveAndFlush(convertToEntity(helpBasket));
+        List<ProductEntity> list = new ArrayList<>();
+        for (int i = 0; i < basket.getProductList().size(); i++) {
+            list.add(productDao.convertToEntity(basket.getProductList().get(i)));
+        }
+//        basket.setBasketId(basketRepository.findBasketEntityByProducts(list).getBasketId());
+        log.info("Basket {{}} was created", basket);
         return basket;
     }
 
     @Override
-    public Basket updateBasket(Basket basket) {
-        Basket helpBasket = baskets.get(basket.getBasketId());
-        if(null == helpBasket){
+    public Basket updateBasket(Basket basket) throws ParseException {
+        BasketEntity basketEntity = basketRepository.findBasketEntityByBasketId(basket.getBasketId());
+//        Basket helpBasket = baskets.get(basket.getBasketId());
+        if(null == basketEntity){
             log.warn("Update basket with id {{}} was failed: basket not exists", basket.getBasketId());
             throw new RuntimeException("There is no basket with id =" + basket.getBasketId());
         }
-        helpBasket.setProductList(basket.getProductList());
+        List<ProductEntity> list = new ArrayList<>();
+        for (int i = 0; i < basket.getProductList().size(); i++) {
+            list.add(productDao.convertToEntity(basket.getProductList().get(i)));
+        }
+        basketRepository.updateProduct(list, basket.getBasketId());
+//        helpBasket.setProductList(basket.getProductList());
+        log.info("Basket {{}} was updated", basket);
         return basket;
     }
 
     @Override
     public void removeBasket(long basketId) {
-        if (baskets.containsKey(basketId)){
-            baskets.remove(basketId);
-            log.info("basket {{}} successfully removed", basketId);
+        if(null != basketRepository.findBasketEntityByBasketId(basketId)) {
+            basketRepository.deleteByBasketId(basketId);
+//            baskets.remove(basketId);
+            log.info("basket with id {{}} successfully removed", basketId);
         } else{
             log.warn("Removing basket with id {{}} was failed : basket not exists", basketId);
             throw new RuntimeException("There is no basket with id=" + basketId);
@@ -57,28 +79,34 @@ public class BasketDaoImpl implements BasketDao {
     }
 
     @Override
-    public Map<Long, Basket> showAllBaskets() {
-        for (Basket i: baskets.values()) {
-            System.out.println(i);
+    public List<Basket> showAllBaskets() {
+        List<Basket> baskets = new ArrayList<>();
+        for (int i = 0; i < basketRepository.findAll().size(); i++) {
+            baskets.add(convertToDto(basketRepository.findAll().get(i)));
         }
+//        for (Basket i: baskets.values()) {
+//            System.out.println(i);
+//        }
         return baskets;
     }
 
     @Override
     public Basket getBasket(long basketId) {
-        Basket helpBasket = baskets.get(basketId);
-        if(null == helpBasket){
+        BasketEntity basketEntity= basketRepository.findBasketEntityByBasketId(basketId);
+//        Basket helpBasket = baskets.get(basketId);
+        if(null == basketEntity){
             log.warn("Get basket with id {{}} was failed: basket not exists", basketId);
             throw new RuntimeException("There is no basket with id =" + basketId);
         }
-        return Basket.builder()
-                .basketId(basketId)
-                .productList(helpBasket.getProductList())
-                .build();
+//        return Basket.builder()
+//                .basketId(basketId)
+//                .productList(helpBasket.getProductList())
+//                .build();
+        return convertToDto(basketEntity);
     }
 
     @Override
-    public void putInBasket(long basketId, Product product) {
+    public void putInBasket(long basketId, Product product) throws ParseException {
         Basket helpBasket = getBasket(basketId);
         ArrayList<Product> list = new ArrayList<>();
         list.addAll(0, helpBasket.getProductList());
@@ -90,7 +118,7 @@ public class BasketDaoImpl implements BasketDao {
     }
 
     @Override
-    public void removeFromBasket(long basketId, Product product) {
+    public void removeFromBasket(long basketId, Product product) throws ParseException {
         Basket helpBasket = getBasket(basketId);
         ArrayList<Product> list = new ArrayList<>();
         list.addAll(0, helpBasket.getProductList());
@@ -105,5 +133,15 @@ public class BasketDaoImpl implements BasketDao {
     public List<Product> showBasket(long basketId) {
         Basket helpBasket = getBasket(basketId);
         return helpBasket.getProductList();
+    }
+
+    private Basket convertToDto(BasketEntity basketEntity) {
+        Basket basket = modelMapper.map(basketEntity, Basket.class);
+        return basket;
+    }
+
+    private BasketEntity convertToEntity(Basket basket) throws ParseException {
+        BasketEntity basketEntity = modelMapper.map(basket, BasketEntity.class);
+        return basketEntity;
     }
 }

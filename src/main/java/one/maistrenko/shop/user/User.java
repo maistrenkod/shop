@@ -5,15 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
 public class User {
+
     private long userid;
     private String username;
     private String password;
-    private Role role;
     private long basketId;
 }
-enum Role{ADMIN, USER}

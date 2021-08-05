@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import one.maistrenko.shop.product.Product;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public Basket createBasket(Basket basket) {
+    public Basket createBasket(Basket basket) throws ParseException {
         if(basket.getProductList().size() > 30){
             System.out.println("Can't create basket. Too many products.");
             log.warn("Can't create basket. Quantity of products is {{}}", basket.getProductList().size());
@@ -33,7 +34,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public Basket updateBasket(Basket basket) {
+    public Basket updateBasket(Basket basket) throws ParseException {
         if(basket.getProductList().size() > 30){
             System.out.println("Can't update basket. Too many products.");
             log.warn("Can't update basket. Quantity of products is {{}}", basket.getProductList().size());
@@ -44,7 +45,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public Map<Long, Basket> showAllBaskets() {
+    public List<Basket> showAllBaskets() {
         return basketDao.showAllBaskets();
     }
 
@@ -54,12 +55,12 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void putInBasket(long basketId, Product product) {
+    public void putInBasket(long basketId, Product product) throws ParseException {
         basketDao.putInBasket(basketId, product);
     }
 
     @Override
-    public void removeFromBasket(long basketId, Product product) {
+    public void removeFromBasket(long basketId, Product product) throws ParseException {
         basketDao.removeFromBasket(basketId, product);
     }
 

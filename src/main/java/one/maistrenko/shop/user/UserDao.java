@@ -1,14 +1,12 @@
 package one.maistrenko.shop.user;
 
-import one.maistrenko.shop.product.Product;
-
+import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 public interface UserDao {
     void removeUser(long userId);
-    Map<Long, User> showUsers();
-    User createUser(User user);
+    List<User> showUsers();
+    User createUser(User user) throws ParseException;
     User updateUser(User user);
 //    void putInBasket(long userId, Product product);
 //    void removeFromBasket (long userId, Product product);
