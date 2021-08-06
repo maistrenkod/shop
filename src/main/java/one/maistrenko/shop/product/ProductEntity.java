@@ -27,7 +27,7 @@ public class ProductEntity {
 
     @ManyToMany
 //    @JoinColumn(name = "basketId", nullable = false, referencedColumnName = "basketId")
-    @JoinTable(name = "productsInBaskets", joinColumns = @JoinColumn(name = "productId"),
-            inverseJoinColumns = @JoinColumn(name = "basketId"))
+    @JoinTable(name = "productsInBaskets", joinColumns ={ @JoinColumn(name = "productId")},
+            inverseJoinColumns = { @JoinColumn(name = "basketId")})
     private List<BasketEntity> baskets;
 }

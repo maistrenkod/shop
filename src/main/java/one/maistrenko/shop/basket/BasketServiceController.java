@@ -2,6 +2,7 @@ package one.maistrenko.shop.basket;
 
 import one.maistrenko.shop.product.Product;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -17,11 +18,13 @@ public class BasketServiceController {
         this.basketService = basketService;
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody Basket createBasket(@RequestBody Basket basket) throws ParseException {
         return basketService.createBasket(basket);
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.PATCH)
     public @ResponseBody Basket updateBasket(@RequestBody Basket basket) throws ParseException {
         return basketService.updateBasket(basket);
@@ -37,16 +40,19 @@ public class BasketServiceController {
         return basketService.showAllBaskets();
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "/put/{basketId:\\d+}")
     public void putInBasket(@PathVariable long basketId, @RequestBody Product product) throws ParseException {
         basketService.putInBasket(basketId, product);
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "/remove/{basketId:\\d+}")
     public void removeFromBasket(@PathVariable long basketId, @RequestBody Product product) throws ParseException {
         basketService.removeFromBasket(basketId, product);
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.DELETE, value = "{id:\\d+}")
     public void deleteBasket(@PathVariable long id){
         basketService.removeBasket(id);

@@ -2,6 +2,7 @@ package one.maistrenko.shop.product;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,6 +24,7 @@ public class ProductServiceController {
         return productService.createProduct(product);
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.PATCH)
     public @ResponseBody Product updateProduct(@RequestBody Product product){
         return productService.updateProduct(product);
@@ -33,6 +35,7 @@ public class ProductServiceController {
         return productService.getProduct(id);
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.DELETE, value = "{id:\\d+}")
     public void removeProduct(@PathVariable long id){
         productService.removeProduct(id);
