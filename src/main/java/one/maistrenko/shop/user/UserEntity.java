@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Table(name ="users", schema = "basic")
 public class UserEntity {
 
+    //
     @Id
     @Column(name = "userid", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
